@@ -729,6 +729,11 @@ table.table.table-bordered th{
   width: 30%;
 }
 
+/* Fix pagination */
+.sr-only {
+  display: none !important;
+}
+
 /**/
 
 /*
