@@ -4,6 +4,7 @@ import {Luv2ShopFormService} from '../../services/luv2-shop-form.service';
 import {State} from '../../common/state';
 import {Country} from '../../common/country';
 import {Luv2ShopValidators} from '../../validators/luv2-shop-validators';
+import {CartService} from '../../services/cart.service';
 
 @Component({
   selector: 'app-checkout',
@@ -27,9 +28,11 @@ export class CheckoutComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,
-              private luv2ShopFormService: Luv2ShopFormService) { }
+              private luv2ShopFormService: Luv2ShopFormService,
+              private cartService: CartService) { }
 
   ngOnInit(): void {
+    this.reviewCartDetails();
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -214,6 +217,17 @@ export class CheckoutComponent implements OnInit {
         // select first item by default
         formGroup.get('state').setValue(data[0]);
       }
+    );
+  }
+
+  reviewCartDetails() {
+    // subscribe to cartService
+    this.cartService.totalQuantity.subscribe(
+      totalQuantity => this.totalQuantity = totalQuantity
+    );
+
+    this.cartService.totalPrice.subscribe(
+      totalPrice => this.totalPrice = totalPrice
     );
   }
 }
